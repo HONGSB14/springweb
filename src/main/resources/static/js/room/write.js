@@ -1,20 +1,18 @@
 
 
-//전역변수
-let x =null;
-let y =null;
 
 // 1. 저장 메소드
 function asd(){
-    alert("통신");
-        let roomname=$("#roomname").val();
-
+  //1. form 가져오기
+   let form=$("#saveform")[0];
+   let formdata=new FormData(form);
         $.ajax({
             url:"/room/write",
-            method:"put",
-            data:{"roomname":roomname,"x":x,"y":y},
+            method:"POST",
+            data:formdata,
+            contentType:false,  //첨부파일 전송(사진,영상 등등) 시 사용되는 속성   true (String) //false(byte)
+            processData:false,  //첨부파일 전송(사진,영상 등등) 시 사용되는 속성
             success:function(data){
-
                     if(data){
                          alert("java 와 통신 성공");
                     }else{
@@ -78,8 +76,8 @@ function asd(){
                             // 해당 주소에 대한 좌표를 받아서
                             var coords = new daum.maps.LatLng(result.y, result.x);
                                     // 해당 좌표를 전역변수로 이동
-                                    x = result.x;
-                                    y = result.y;
+                                    $("#x").val(result.x);
+                                    $("#y").val(result.y);
 
                             // 지도를 보여준다.
                             mapContainer.style.display = "block";
