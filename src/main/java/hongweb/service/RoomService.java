@@ -1,9 +1,12 @@
 package hongweb.service;
 
+import hongweb.domain.member.MemberEntity;
+import hongweb.domain.member.MemberRepository;
 import hongweb.domain.room.RoomEntity;
 import hongweb.domain.room.RoomImgEntity;
 import hongweb.domain.room.RoomImgRepository;
 import hongweb.domain.room.RoomRepository;
+import hongweb.dto.LoginDto;
 import hongweb.dto.RoomDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.util.*;
@@ -22,15 +26,29 @@ public class RoomService {
     @Autowired
     RoomImgRepository roomImgRepository;
 
+    @Autowired
+    HttpServletRequest request;
+
+    @Autowired
+    private MemberRepository memberRepository;
     //1. 룸 저장
     @Transactional
     public boolean room_save(RoomDto roomDto){
 
+        //현재 로그인된 세션 호출
+        LoginDto loginDto=(LoginDto)request.getSession().getAttribute("login");
+       //현재 로그인된 회원의 엔티티 호출
+        MemberEntity memberEntity= memberRepository.findById(loginDto.getMno()).get();
         //1.dto 를 entity 로 변환 (DTO는 DB에 저장할 수 없기 때문에)
         RoomEntity roomEntity=roomDto.toEntity();
 
         //2.저장 [ 우선적으로 룸을 DB에 저장 ]
         roomRepository.save(roomEntity);
+
+        //현재  로그인된 회원 엔티티를 룸 엔티티에 저장
+        roomEntity.setMemberEntity(memberEntity);
+        //현재 로그인된 회원 엔티티내 룸 리스트에 룸 엔티티 추가
+        memberEntity.getRoomEntityList().add(roomEntity);
 
         //3.입력받은 첨부파일을 저장한다.
         String uuidfile=null;
@@ -162,5 +180,33 @@ public class RoomService {
         object.put("rimglist", jsonArray);
         System.out.println(object);
         return object;
+    }
+
+    public JSONArray myroomlist(){
+        JSONArray jsonArray= new JSONArray();
+
+        LoginDto loginDto =(LoginDto) request.getSession().getAttribute("login");
+        MemberEntity memberEntity=memberRepository.findById(loginDto.getMno()).get();
+
+        for(RoomEntity entity : memberEntity.getRoomEntityList()){
+            JSONObject object = new JSONObject();
+            object.put("rno",entity.getRno());
+            object.put("rtitle",entity.getRtitle());
+            object.put("rimg",entity.getRoomImgEntityList().get(0).getRimg());
+            object.put("rdate",entity.getMemberEntity().getModifiedate());
+
+            jsonArray.put(object);
+        }
+        return jsonArray;
+    }
+
+    public boolean delete(int rno){
+        RoomEntity roomEntity = roomRepository.findById(rno).get();
+        if(roomEntity != null){
+             roomRepository.delete(roomEntity);
+             return true;
+        }else{
+            return false;
+        }
     }
 }

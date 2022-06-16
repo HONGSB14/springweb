@@ -1,5 +1,6 @@
 package hongweb.domain.room;
 
+import hongweb.domain.member.MemberEntity;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +44,12 @@ public class RoomEntity {
     private String ractive;                                   //거래상태
 
 
+    @ManyToOne                 //다수가 하나와 관계를 맺는다.
+    @JoinColumn(name="mno")
+    private MemberEntity memberEntity;
+
     @OneToMany(mappedBy = "roomEntity", cascade = CascadeType.ALL)      //하나가 다수와 관계를 맺는다.
-    private List<RoomImgEntity> roomImgEntityList = new ArrayList<>();
+    private List<RoomImgEntity> roomImgEntityList ;
+
+
 }

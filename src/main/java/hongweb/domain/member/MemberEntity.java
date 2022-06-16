@@ -1,16 +1,22 @@
 package hongweb.domain.member;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import hongweb.domain.BaseTime;
+import hongweb.domain.room.RoomEntity;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="member")
 @Builder
 @Getter@Setter
-public class MemberEntity {
+@AllArgsConstructor
+@NoArgsConstructor
+public class MemberEntity extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,4 +24,7 @@ public class MemberEntity {
     private String mid;
     private String mpassword;
     private String mname;
+
+    @OneToMany(mappedBy ="memberEntity" , cascade=CascadeType.ALL)
+    List<RoomEntity> roomEntityList;
 }

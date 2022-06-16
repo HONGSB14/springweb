@@ -82,6 +82,25 @@ public class RoomController {
         }
 
     }
+    @GetMapping("/myroomlist")
+    public void  myroomlist(HttpServletResponse response){
+
+        try {
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json");
+            response.getWriter().print(roomService.myroomlist());
+
+        }catch (Exception e) {
+            System.out.println("정보 불러오기 실패!");
+        }
+
+    }
+
+    @DeleteMapping("/delete")
+    @ResponseBody
+    public boolean delete(@RequestParam("rno") int rno){
+        return roomService.delete(rno);
+    }
 
 }
 /*

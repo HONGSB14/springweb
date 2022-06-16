@@ -64,7 +64,6 @@
 
                                   // 마커에 클릭 이벤트를 등록한다 (우클릭 : rightclick)
                                  kakao.maps.event.addListener(marker, 'click', function() {
-                                      console.log(position.rno);
                                    getRoom(position.rno);
 
                                    });

@@ -10,11 +10,21 @@
 <body>
     <h3>헤더 페이지</h3>
 
-    <a href="/room/write"> 등록 </a>
+    <a th:if="${session.login != null}" href="/room/write"> 등록 </a>
     <br>
-    <a href="/room/list"> 지도보기 </a>
+    <a th:if="${session.login != null}" href="/member/myroom"> 마이룸 </a>
     <br>
-    <a href="/member/signup">회원가입</a>
+    <a th:if="${session.login != null}"  href="/member/info">회원정보</a>
+    <br>
+    <a th:if="${session.login != null}" href="/member/logout">로그아웃</a>
+    <br>
+    <span th:if="${session.login != null}" th:text="${session.login}">님  반갑습니다.</span>
+    <br>
+    <a  href="/room/list"> 지도보기 </a>
+    <br>
+    <a th:if="${session.login == null}" href="/member/signup">회원가입</a>
+    <br>
+    <a th:if="${session.login == null}" href="/member/login">로구인</a>
 
     <!--카카오 클루스터-->
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b7c0acb1395b016fc6b2661dad73840f&libraries=services,clusterer"></script>

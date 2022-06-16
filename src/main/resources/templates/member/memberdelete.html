@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <div th:replace="header.html :: header"></div>
+  <div class="container">
+      <div class="col-md-12 text-center">
+          <h3>회원 탈퇴</h3>
+        <form>
+         <div class="offset-4 col-md-4">
+              비밀번호: <input type="password" id="mpassword" class="form-control">
+          </div>
+            <button type="button" onclick="memberdelete()" class="btn btn-primary">회원탈퇴</button>
+        </form>
+      </div>
+  </div>
+
+<script src="/js/member/member.js"></script>
+</body>
+</html>
