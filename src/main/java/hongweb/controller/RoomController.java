@@ -61,10 +61,27 @@ public class RoomController {
     @PostMapping("/roomlist")
     @ResponseBody
     public Map<String, List<Map<String,String>>> roomlsit(@RequestBody Map<String,String> Location){
-        System.out.println(Location);
+
         return roomService.room_list(Location);
     }
 
+
+    @GetMapping("/getroom")
+    @ResponseBody
+    public void getRoom(@RequestParam("rno") int rno,HttpServletResponse response){
+
+        try{
+
+            JSONObject object = roomService.getroom(rno);
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json");
+            response.getWriter().print(object);
+
+        }catch(Exception e){
+
+        }
+
+    }
 
 }
 /*

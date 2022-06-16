@@ -1,4 +1,4 @@
-package hongweb.domain;
+package hongweb.domain.room;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

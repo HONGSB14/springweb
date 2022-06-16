@@ -76,8 +76,8 @@ function asd(){
                             // 해당 주소에 대한 좌표를 받아서
                             var coords = new daum.maps.LatLng(result.y, result.x);
                                     // 해당 좌표를 전역변수로 이동
-                                    $("#x").val(result.x);
-                                    $("#y").val(result.y);
+                                    $("#rlat").val(result.x);
+                                    $("#rlon").val(result.y);
 
                             // 지도를 보여준다.
                             mapContainer.style.display = "block";

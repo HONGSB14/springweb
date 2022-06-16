@@ -5,6 +5,7 @@ import hongweb.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller //주요응답/요청
 public class MemberController {
@@ -19,13 +20,9 @@ public class MemberController {
     MemberService memberService;
 
     @GetMapping("/signup")
-    public String signup(){
-        //DTO 생성
-      MemberDto memberDto= MemberDto.builder()
-                .mid("qweqwe")
-                .mpassword("qweqwe")
-                .mname("qweqwe")
-                .build();
+    @ResponseBody
+    public String signup(MemberDto  memberDto){
+
             //서비스 호출
         memberService.signup(memberDto);
 

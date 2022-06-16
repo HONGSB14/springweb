@@ -1,22 +1,26 @@
-package hongweb.dto;
+package hongweb.domain.room;
 
-import hongweb.domain.room.RoomEntity;
-import hongweb.domain.room.RoomImgEntity;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Column;
+import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-@Builder
-public class RoomDto {
+import static javax.persistence.GenerationType.IDENTITY;
 
-    private int rno;                                            //번호
+@Entity
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name="room")
+public class RoomEntity {
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int rno;                                            //번호        [PK]
     private String rtitle;                                   // 방 이름
     private String rlat;                                       //위도
     private String rlon;                                      //경도
@@ -33,39 +37,12 @@ public class RoomDto {
     private int rmaxfloor;                                   //건물전체층
     private String rkind;                                   //건물종류
     private String raddress;                                //건물주소
+    @Column(columnDefinition ="TEXT")
     private String rcontents;                              //상세설명
-
-    private List<MultipartFile> rimg;                 //첨부사진
+    private String rimg;                                        //첨부사진
     private String ractive;                                   //거래상태
 
 
-
-    //1. Dto -> Entity 로 바꿔주는 메소드 (이유: 반복사용)
-    public RoomEntity toEntity(){
-        return RoomEntity.builder()
-                .rno(this.rno)
-                .rtitle(this.rtitle)
-                .rlat(this.rlat)
-                .rlon(this.rlon)
-                .rtrans(this.rtrans)
-                .rprice(this.rprice)
-                .rarea(this.rarea)
-                .rmanagementfee(this.rmanagementfee)
-                .rstructure(this.rstructure)
-                .rcompletiondate(this.rcompletiondate)
-                .rparking(this.rparking)
-                .relevator(this.relevator)
-                .rindate(this.rindate)
-                .rfloor(this.rfloor)
-                .rmaxfloor(this.rmaxfloor)
-                .rkind(this.rkind)
-                .raddress(this.raddress)
-                .rcontents(this.rcontents)
-                .ractive(this.ractive)
-                .roomImgEntityList(new ArrayList<>())
-                .build();
-
-
-    }
-
+    @OneToMany(mappedBy = "roomEntity", cascade = CascadeType.ALL)      //하나가 다수와 관계를 맺는다.
+    private List<RoomImgEntity> roomImgEntityList = new ArrayList<>();
 }

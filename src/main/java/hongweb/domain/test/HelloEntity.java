@@ -1,4 +1,4 @@
-package hongweb.domain;
+package hongweb.domain.test;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

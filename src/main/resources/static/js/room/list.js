@@ -44,6 +44,9 @@
                  contentType : 'application/json' ,
                  success : function( data ){
 
+
+                        console.log( data );
+
                          // *** 만약에 data 없으면 메시지를 사이드바에 띄우기
                          if( data.positions.length == 0  ){
                           html +="<div>검색된 방이 없습니다.</div>"
@@ -55,15 +58,16 @@
 
                              // 마커 하나 생성  start
                              var marker =  new kakao.maps.Marker({
-                                 position : new kakao.maps.LatLng( position.lat, position.lng) ,
+                                 position : new kakao.maps.LatLng(position.rlon, position.rlat) ,
                                  image : markerImage // 마커의 이미지
                              });
 
                                   // 마커에 클릭 이벤트를 등록한다 (우클릭 : rightclick)
                                  kakao.maps.event.addListener(marker, 'click', function() {
-                                     alert(" 룸 이름 : " + position.roomname );
-                              });
+                                      console.log(position.rno);
+                                   getRoom(position.rno);
 
+                                   });
                                  // 사이드바에 추가할 html 구성
                                  html +=
                                              '<div class="row">'+
@@ -72,7 +76,7 @@
                                                  '</div>'+
                                                  '<div class="col-md-6">'+
                                                      '<div> 집번호 : <span> '+position.rno+' </span>  </div>'+
-                                                     '<div> 집이름 : <span> '+position.roomname+' </span>  </div>'+
+                                                     '<div> 집이름 : <span> '+position.rtitle+' </span>  </div>'+
                                                  '</div>'+
                                              '</div>';
 
@@ -104,3 +108,34 @@
         // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
         map.setLevel(level, {anchor: cluster.getCenter()});
     });
+
+
+   function getRoom( rno ) {
+                 // 해당 모달에 데이터 넣기
+                       $.ajax({
+                           url : "/room/getroom" ,
+                           method : "GET",
+                           data : { "rno" : rno } ,
+                           success: function( room ){
+                               let imgtag = "";
+                               // 응답받은 데이터를 모달에 데이터 넣기
+                               console.log( room.rimglist );
+                               for( let i = 0 ; i<room.rimglist.length ; i++ ){
+                                    if( i == 0 ){  // 첫번째 이미지만 active 속성 추가
+                                       imgtag +=
+                                                    '<div class="carousel-item active">'+
+                                                        '<img src="/upload/'+room.rimglist[i]+'" class="d-block w-100" alt="...">'+
+                                                   '</div>';
+                                    }else{
+                                       imgtag +=
+                                                '<div class="carousel-item">'+
+                                                    '<img src="/upload/'+room.rimglist[i]+'" class="d-block w-100" alt="...">'+
+                                               '</div>';
+                                    }
+                               }
+                               $("#modalimglist").html( imgtag );
+                               // 모달 띄우기
+                               $("#modalbtn").click();
+                           }
+                       });
+   }

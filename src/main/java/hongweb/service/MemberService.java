@@ -1,7 +1,7 @@
 package hongweb.service;
 
-import hongweb.domain.MemberEntity;
-import hongweb.domain.MemberRepository;
+import hongweb.domain.member.MemberEntity;
+import hongweb.domain.member.MemberRepository;
 import hongweb.dto.MemberDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +17,14 @@ public class MemberService {
     MemberRepository memberRepository;
     //2. 회원가입 처리 메소드
     public boolean signup(MemberDto memberDto){
-        //dto -> entity [ 이유 : DTO 는 DB 로 들어갈 수 없음 ]
-        MemberEntity memberEntity= MemberEntity.builder()
-                .mid(memberDto.getMid())
-                .mpassword(memberDto.getMpassword())
-                .mname(memberDto.getMname())
-                .build();
+//     dto->entity 바꾸는  첫번째 방법
+//        //바꾸는 이유 : DTO 는 DB 로 들어갈 수 없음
+//        MemberEntity memberEntity= MemberEntity.builder()
+//                .mid(memberDto.getMid())
+//                .mpassword(memberDto.getMpassword())
+//                .mname(memberDto.getMname())
+//                .build();
+        MemberEntity memberEntity = memberDto.toEntity();
         memberRepository.save(memberEntity);
         return false;
     }

@@ -1,4 +1,4 @@
-package hongweb.domain;
+package hongweb.domain.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
