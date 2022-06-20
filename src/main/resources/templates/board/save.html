@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+<body>
+
+  <div th:replace="header.html :: header"></div>
+  <div class="container">
+      <form id="saveForm">
+           제목: <input type="text" name="btitle" id="btitle">
+          내용:   <input type="text" name="bcontent" id="bcontent">
+            <button type="button" onclick="board_save()">글 쓰기</button>
+          
+      </form>
+      <a href="/board/list">목록 보기</a>
+
+
+  </div>
+
+  <script src="/js/board/save.js" type="text/javascript"></script>
+  <div th:replace="footer.html :: footer"></div>
+</body>
+</html>

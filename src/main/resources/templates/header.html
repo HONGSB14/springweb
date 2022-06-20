@@ -10,6 +10,8 @@
 <body>
     <h3>헤더 페이지</h3>
 
+    <a href="/board/list">자유게시판</a>
+    <br>
     <a th:if="${session.login != null}" href="/room/write"> 등록 </a>
     <br>
     <a th:if="${session.login != null}" href="/member/myroom"> 마이룸 </a>
