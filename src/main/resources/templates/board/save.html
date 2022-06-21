@@ -9,6 +9,10 @@
   <div th:replace="header.html :: header"></div>
   <div class="container">
       <form id="saveForm">
+          카테고리:
+          <SELECT name="categorybox">
+
+          </SELECT>
            제목: <input type="text" name="btitle" id="btitle">
           내용:   <input type="text" name="bcontent" id="bcontent">
             <button type="button" onclick="board_save()">글 쓰기</button>

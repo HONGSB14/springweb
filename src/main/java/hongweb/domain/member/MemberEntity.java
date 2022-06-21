@@ -1,6 +1,7 @@
 package hongweb.domain.member;
 
 import hongweb.domain.BaseTime;
+import hongweb.domain.board.BoardEntity;
 import hongweb.domain.room.RoomEntity;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -8,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,4 +29,8 @@ public class MemberEntity extends BaseTime {
 
     @OneToMany(mappedBy ="memberEntity" , cascade=CascadeType.ALL)
     List<RoomEntity> roomEntityList;
+
+    @Builder.Default
+    @OneToMany(mappedBy="memberEntity" , cascade=CascadeType.ALL)
+    List<BoardEntity> boardEntityList = new ArrayList<>();
 }

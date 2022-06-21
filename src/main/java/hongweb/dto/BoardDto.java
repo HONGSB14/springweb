@@ -14,6 +14,7 @@ public class BoardDto {
     private int bview;               //게시판 조회수
     private int blike;                 //게시판 좋아요 수
 
+    private String category;    //게시물 카테고리
     public BoardEntity getBoardEntity(){
 
         return BoardEntity.builder()

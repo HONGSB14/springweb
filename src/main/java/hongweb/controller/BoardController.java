@@ -80,6 +80,15 @@ public class BoardController {
             }
         }
 
+        @GetMapping("/getCategoryList")
+        public void getCategoryList(HttpServletResponse response){
+            try {
+
+            }catch (Exception e) {
+
+            }
+        }
+
         //3.U
         @PutMapping("/update")
         @ResponseBody

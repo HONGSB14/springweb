@@ -10,7 +10,12 @@ let formData= new FormData(form);
         processData:false,
         contentType:false,
         success:function(data){
-            alert(data);
+           if(data==true){
+                alert("게시물 작성 성공");
+                location.href="/board/list";
+           }else{
+                alert("로그인 후 작성이 가능합니다.");
+           }
         }
     });
 }
