@@ -1,29 +1,30 @@
 board_get();
-//특정 게시물 확인
+// 1. 특정 게시물 호출
 function board_get(){
     $.ajax({
-        url:"/board/getBoard",
-        success:function(data){
-           let html =
-                                    '<div>게시물 번호:'+data.bno+'</div>'+
-                                     '<div>게시물 제목:'+data.btitle+'</div>'+
-                                     '<div>게시물 내용:'+data.bcontent+'</div>'+
-                                     '<div>게시물 작성일:'+data.bdate+'</div>'+
-                                     '<div>게시물 수정일:'+data.bmodate+'</div>'+
-                                     '<div>게시물 조회수:'+data.bview+'</div>'+
-                                     '<div>게시물 좋아요 수:'+data.blike+'</div>'+
-                                     '<button type="button" onclick="board_delete('+data.bno+')">삭제처리</button>';
-                                     $("#boardDiv").html(html);
+        url: '/board/getboard' ,
+        success : function( board ){
+            let html =
+                           ' <div>게시물번호 : '+board.bno+'</div>'+
+                            '<div>게시물제목 : '+board.btitle+' </div>'+
+                            '<div>게시물내용 : '+board.bcontent+' </div>'+
+                            '<div>게시물작성일: '+board.bindate+' </div>'+
+                            '<div>게시물수정일: '+board.bmodate+' </div>'+
+                            '<div>게시물조회수: '+board.bview+' </div>'+
+                            '<div>게시물좋아요수: '+board.blike+' </div>'+
+                            '<button onclick="board_delete('+board.bno+')"> 삭제 </button>';
+            $("#boarddiv").html(html);
         }
     });
 }
-//삭제 처리 메소드
-function board_delete(bno){
+// 3. D 삭제 처리 메소드
+function board_delete( bno ){
       $.ajax({
-            url:"/board/delete",
-            data:{"bno":bno},
-            method:"DELETE",
-            success:function(data){
-            }
-        });
+         url : "/board/delete" ,
+         data : { "bno" : bno } ,
+         method : "DELETE",
+         success : function( re ){
+            alert( re );
+         }
+     });
 }

@@ -1,14 +1,3 @@
-import hongweb.controller.BoardController;
-import hongweb.controller.HelloController;
-import hongweb.dto.BoardDto;
-import org.json.JSONArray;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
 //@WebMvcTest( controllers = HelloController.class )
 //public class HelloControllerTest {
 //

@@ -1,16 +1,10 @@
-function updateid(){
- alert("통신");
+function update(){
     $.ajax({
-        url:"/member/update",
-        method:"PUT",
-        data:{"mname":$("#mname").val()},
-        success:function(data){
-            if(data){
-                alert("수정완료");
-            }else{
-                 alert("수정실패");
-            }
+        url: '/member/update',
+        data : { "mname" : $("#mname").val() },
+        method : "put",
+        success: function( re ){
+            alert( re );
         }
     });
-
 }

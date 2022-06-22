@@ -5,12 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-    <div th:replace="header.html :: header"></div>
 
-    <form>
-        수정이름: <input type="txet" id="mname" name="mname">
-        <button type="button" onclick="updateid()">회원수정</button>
-  </form>
-<script src="/js/member/update.js"  type="text/javascript"></script>
+<div th:replace="header.html :: header"></div>
+
+<form> <!--  post , get -->
+    수정할 이름 : <input type="text"  id="mname">
+    <button type="button" onclick="update()">수정</button>
+</form>
+
+<script src="/js/member/update.js"> </script>
+
 </body>
 </html>

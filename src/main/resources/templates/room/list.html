@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,19 +8,18 @@
 
 <div th:replace="header.html :: header"></div>
 
-
-
 <div class="row">
-    <!--지도-->
-    <div class="col-md-9">
-        <div id="map" style="width:100%;height:1200px;"></div>
+    <div class="col-md-10">
+        <div id="map" style="width:100%;height:1000px;"></div>   <!-- 지도 -->
     </div>
-    <!--사이드 바-->
-    <div class="col-md-3" id="sidebar">
-        스크롤
+    <div class="col-md-2" id="sidebar">
+        <!--사이드바 표시 구역 -->
+
     </div>
 </div>
 
+<!-- 모달 -->
+<!-- Button trigger modal -->
 <button style="display:none" type="button" id="modalbtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Launch demo modal
 </button>
@@ -35,10 +33,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                    <!----------캐러셀----------->
+
+                <!-- 캐러셀 -->
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner" id="modalimglist">
 
+                        <!-- 이미지가 표시되는 구역 -->
 
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -51,6 +51,7 @@
                     </button>
                 </div>
 
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -59,8 +60,9 @@
         </div>
     </div>
 </div>
-<div th:replace="footer.html :: footer"></div>
 
-<script type="text/javascript" src="/js/room/list.js"></script>
+
+<script src="/js/room/list.js"></script>
+
 </body>
 </html>

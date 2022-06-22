@@ -1,19 +1,16 @@
 function login(){
-alert("헤이");
-let mid=$("#mid").val();
-let mpassword=$("#mpassword").val();
     $.ajax({
-            url:"/member/login",
-             method:"post",
-            data:{"mid":mid,"mpassword":mpassword},
-            success:function(data){
-                console.log(data);
-                if(data==true){
-                        alert("로그인 성공!");
-                        location.href="/";
+        url: "/member/login",
+        method: "POST",
+        data : { "mid" : $("#mid").val()    , "mpassword" : $("#mpassword").val()   } ,
+        success: function( re ){
+                alert( re );
+                if( re == true ){
+                    alert("로그인성공");
+                    location.href = "/"; // 메인페이지로 매핑
                 }else{
-                    alert("로그인 실패!");
+                    alert("로그인실패");
                 }
-            }
+        }
     });
 }
