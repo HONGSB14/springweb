@@ -105,6 +105,7 @@ public class BoardService {
         // size = "현재페이지에 보여줄 게시물수"
         // sort = "정렬기준"  [   Sort.by( Sort.Direction.DESC , "정렬필드명" )   ]
         // sort 문제점 : 정렬 필드명에 _ 인식 불가능 ~~~  ---> SQL 처리
+
         Pageable pageable = PageRequest.of(  page , 5 , Sort.by( Sort.Direction.DESC , "bno")    ); // SQL : limit 와 동일 한 기능처리
 
         // 필드에 따른 검색 기능
