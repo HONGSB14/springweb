@@ -20,6 +20,7 @@ public class BoardEntity extends BaseTime {
     private String bcontent;    // 내용
     private int bview;              // 조회수
     private int blike;              // 좋아요 수
+
     // 작성자 [ 연관관계 ]
     @ManyToOne
     @JoinColumn(name = "mno")

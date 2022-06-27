@@ -1,67 +1,138 @@
-package ezenweb.controller;
+//package ezenweb.controller;
+//import ezenweb.dto.LoginDto;
+//import org.junit.jupiter.api.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.mock.web.MockHttpSession;
+//import org.springframework.test.web.servlet.MockMvc;
+////스프링 test 를 위한 MockMvcRequestBuilders 메소드 호출
+//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+//import static org.junit.jupiter.api.Assertions.*;
+//import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+//
+//@SpringBootTest
+//@AutoConfigureMockMvc   //MVC 테스트중 C,S,M 까지 가능
+//    @WebMvcTest // MVC 테스트중 C만 가능
+//class BoardControllerTest {
+//
+//    @Autowired
+//    private MockMvc mvc;
+//    // 1. 게시판 열기 테스트
+//    @Test
+//    void testlist() throws Exception {
+//        mvc.perform( get("/board/list") ).andDo(print() );
+//    }
+//    // 2. 게시판 개별 조회 페이지 열기 테스트
+//    @Test
+//    void testview() throws Exception {
+//        mvc.perform(get("/board/view/1")).andDo(print());
+//    }
+//    // 3. 게시판 수정 페이지 열기 테스트
+//    @Test
+//    void testupdate() throws Exception {
+//        mvc.perform(get("/board/update") ).andDo(print());
+//    }
+//    // 4. 게시판 쓰기 페이지 열기 테스트
+//    @Test
+//    void testsave() throws Exception {
+//
+//        mvc.perform(get("/board/save")).andDo(print());
+//    }
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-//스프링 test 를 위한 MockMvcRequestBuilders 메소드 호출
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-@SpringBootTest
-@AutoConfigureMockMvc   //MVC 테스트중 C,S,M 까지 가능
-    @WebMvcTest // MVC 테스트중 C만 가능
-class BoardControllerTest {
-
-    @Autowired
-    MockMvc mvc;        // MVC 테스트에 사용되는 클래스
-
-    @Test
-    void list() throws Exception {
-        //view 가 없다는 가정 하에 HTTP 테스트 할 수 있는 메소드를 제공 = perform
-            //mvc.perform( http 요청 메소드( URL ) );
-
-        mvc.perform(get("/board/list")).andExpect(status().isOk()).andDo(print());
-    }
-
-    @Test
-    void view() throws Exception{
-        mvc.perform(get("/board/1")).andExpect(status().isOk()).andDo(print());
-    }
-
-    @Test
-    void update() {
-    }
-
-    @Test
-    void save() {
-    }
-
-    @Test
-    void testSave() {
-    }
-
-    @Test
-    void getboardlist() {
-    }
-
-    @Test
-    void getboard() {
-    }
-
-    @Test
-    void testUpdate() {
-    }
-
-    @Test
-    void delete() {
-    }
-
-    @Test
-    void getcategorylist() {
-    }
-}
+    ////////////////////////////////////////////////////
+    // 게시물 작성 테스트
+//    @Test
+//    void testsaveservice(  ) throws Exception {
+//        // 변수 전달 테스트
+//        // http요청메소드("URL").param("필드명",데이터)
+//        // 세션 전달 테스트
+//        //   MockHttpSession 클래스
+//        // http요청메소드("URL").session( 세션객체명 );
+//
+//        LoginDto loginDto = LoginDto.builder()
+//                .mno(1)
+//                .mid("qweqwe")
+//                .mname("qweqwe")
+//                .build();
+//        MockHttpSession mockHttpSession = new MockHttpSession();
+//        mockHttpSession.setAttribute("login", loginDto);
+//
+//        mvc.perform( post("/board/save")
+//                        .param("btitle" , "테스트제목")
+//                        .param("bcontent","테스트내용")
+//                        .param("category","자유게시판")
+//                        .session( mockHttpSession ) )
+//                .andDo(print());
+//    }
+//
+//    // 모든 게시물 호출 테스트
+//    @Test
+//    void testgetboardlist() throws Exception{
+//        mvc.perform( get("/board/getboardlist")
+//                .param("cno" , "1")
+//                .param("key" , "")
+//                .param("keyword" , "")
+//                .param("page" , "0")
+//        ).andDo(print() );
+//    }
+//    // 게시물 검색 테스트
+//    @Test
+//    void testserch() throws Exception{
+//        // 제목에 '하' 가 포함된 검색 테스트
+//        mvc.perform( get("/board/getboardlist")
+//                .param("cno" , "1")
+//                .param("key" , "btitle")
+//                .param("keyword" , "하")
+//                .param("page" , "0")
+//        ).andDo(print() );
+//    }
+//    // 게시물 개별 조회 테스트
+//    @Test
+//    void testgetboard() throws Exception{
+//
+//        // 1번 게시물 조회 테스트
+//        MockHttpSession mockHttpSession = new MockHttpSession();
+//        mockHttpSession.setAttribute("bno" , 1);
+//
+//        mvc.perform( get("/board/getboard")
+//                        .session(mockHttpSession) )
+//                .andDo(print());
+//    }
+//
+//    // 특정 게시물 수정 테스트
+//    @Test
+//    void testupdateservice() throws Exception{
+//        // 1번 게시물 수정 테스트
+//        MockHttpSession mockHttpSession = new MockHttpSession();
+//        mockHttpSession.setAttribute("bno" , 1);
+//
+//        mvc.perform( put("/board/update")
+//                        .param("btitle" , "수정테스트제목")
+//                        .param("bcontent", "수정테스트내용")
+//                        .session(mockHttpSession) )
+//                .andDo(print() );
+//    }
+//
+//    // 특정 게시물 삭제 테스트
+//    @Test
+//    void testdeleteservice() throws Exception{
+//        // 1번 게시물 삭제 테스트
+//        mvc.perform( delete("/board/delete")
+//                        .param("bno","1"))
+//                .andDo( print() );
+//
+//    }
+//
+//    // 카테고리 출력 테스트
+//    @Test
+//    void testgetcategorylist() throws Exception{
+//        mvc.perform( get("/board/getcategorylist") )
+//                .andDo( print() );
+//    }
+//
+//
+//
+//}

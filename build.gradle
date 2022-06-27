@@ -29,6 +29,9 @@ dependencies {
       testImplementation 'org.springframework.boot:spring-boot-starter-test'
       implementation group: 'org.json', name: 'json', version: '20220320'
       runtimeOnly 'mysql:mysql-connector-java'    // mysql 라이브러리
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'  //오아스 [ 소셜로그인 가능 ]
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {

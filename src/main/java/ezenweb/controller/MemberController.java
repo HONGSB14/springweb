@@ -1,5 +1,6 @@
 package ezenweb.controller;
 
+
 import ezenweb.dto.MemberDto;
 import ezenweb.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +21,23 @@ public class MemberController {
         return "/member/login";
     }
 
-    // 3. 로그인 처리 매핑
-    @PostMapping("/login")
-    @ResponseBody
-    public boolean save(@RequestParam("mid") String mid ,
-                        @RequestParam("mpassword") String mpassword ) {
-        return memberService.login( mid , mpassword );
-    }
-    // 4. 로그아웃 처리 매핑
-    @GetMapping("/logout")
-    public String logout( ) {
-        memberService.logout();
-        // return "main";  // 타임리프 반환
-        return "redirect:/"; ///
-    }
+    // 시큐리티 사용시에는 시큐리티내 로그인 서비스 사용
+//    // 3. 로그인 처리 매핑
+//    @PostMapping("/login")
+//    @ResponseBody
+//    public boolean save(@RequestParam("mid") String mid ,
+//                        @RequestParam("mpassword") String mpassword ) {
+//        return memberService.login( mid , mpassword );
+//    }
+
+    // 시큐리티 사용시에는 시큐리티내 로그아웃 서비스 사용
+//    // 4. 로그아웃 처리 매핑
+//    @GetMapping("/logout")
+//    public String logout( ) {
+//        memberService.logout();
+//        // return "main";  // 타임리프 반환
+//         return "redirect:/"; ///
+//    }
 
     // 5. 회원수정 페이지 이동 매핑
     @GetMapping("/update")
@@ -68,9 +72,6 @@ public class MemberController {
     public boolean delete( @RequestParam("mpassword") String mpassword ){
         return memberService.delete( mpassword);
     }
-
-
-
 
     // 2. 회원가입 페이지 이동 매핑
     @GetMapping("/signup")
