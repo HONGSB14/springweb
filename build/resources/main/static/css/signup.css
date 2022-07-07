@@ -1,0 +1,34 @@
+
+@font-face {
+    font-family: 'ChosunCentennial';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/ChosunCentennial.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{ font-family:'ChosunCentennial';}
+
+body{
+    background-image:url('/img/design-g5c974c0e0_1920.jpg')
+}
+
+.signupbox{
+    background-color:white;
+    margin-top:15%;
+    border-radius:20px;
+    box-shadow:5px 5px 5px 5px black;
+    opacity:0.9;    /*투명도*/
+}
+
+.signupbtn{
+    background-color:#042940 !important;
+}
+
+.naverbtn{
+background-color: green !important;
+color:white !important;
+}
+.kakaobtn{
+background-color:yellow !important;
+color:white !important;
+}
