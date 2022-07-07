@@ -51,21 +51,30 @@ public class MemberController {
 
         return memberService.update( mname );
     }
+    @GetMapping("/email/{authkey}/{mid}")
+    public String signupEmail(@PathVariable("authkey") String authkey ,@PathVariable("mid") String mid){
+        //@PathVariable : 경로상 (URL )  변수 요청
+
+        //이메일 검증 처리
+        memberService.authsuccess(authkey,mid);
+        //화면 전환
+        return "member/authsuccess";
+    }
 
     // 7.
     @GetMapping("/info")
     public String info(){
-        return "/member/info";
+        return "member/info";
     }
     //8.
     @GetMapping("/myroom")
     public String myroom(){
-        return "/member/myroom";
+        return "member/myroom";
     }
 
     //9. 삭제 페이지 이동 매핑
     @GetMapping("/delete")
-    public String delete( ){ return  "/member/delete"; }
+    public String delete( ){ return  "member/delete"; }
     // 10. 삭제 처리 매핑
     @DeleteMapping("/delete")
     @ResponseBody
@@ -76,7 +85,7 @@ public class MemberController {
     // 2. 회원가입 페이지 이동 매핑
     @GetMapping("/signup")
     public String signup(){
-        return "/member/write";
+        return "member/write";
     }
 
     // 3. 회원가입 처리 매핑
@@ -87,5 +96,25 @@ public class MemberController {
         boolean result =  memberService.signup( memberDto);
         return result;
     }
+    @GetMapping("/find")
+    public String find() {
+        return "member/find";
+    }
+
+    @GetMapping("/idfind")
+    @ResponseBody
+    public String idfind(@RequestParam("mname") String mname, @RequestParam("memail") String memail) {
+        String idfind=memberService.idfind(mname,memail);
+
+        return idfind;
+    }
+    @GetMapping("/pwdfind")
+    public Boolean pwdfind(@RequestParam("mid") String mid, @RequestParam("memail") String memail){
+            Boolean result =memberService.pwdfind(mid,memail);
+
+            return result;
+    }
+
 
 }
+

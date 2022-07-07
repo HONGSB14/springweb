@@ -18,6 +18,8 @@ public class MemberDto {
     private String mpasswrd;
     private String mname;
 
+    private String memail;
+
     // DTO -> ENTITY
     public MemberEntity toentitiy(){
         // 패스워드 암호화
@@ -30,6 +32,7 @@ public class MemberDto {
                 .mid( this.mid)
                 .mpassword(   passwordEncoder.encode(  this.mpasswrd ) )
                 .mname(this.mname)
+                .memail(this.memail)
                 .roomEntityList( new ArrayList<>() )
                 // 권한부여
                 .role( Role.MEMBER )

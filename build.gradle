@@ -20,18 +20,21 @@ repositories {
 
 dependencies {
        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'               //JPA 라이브러리
-      // runtimeOnly 'com.h2database:h2'                                                      //H2 라이브러리
+      // runtimeOnly 'com.h2database:h2'                                                                                //H2 라이브러리
       implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'              //타임리프
-      implementation 'org.springframework.boot:spring-boot-starter-web'                    //스프링부트
-      compileOnly 'org.projectlombok:lombok'                                               //롬복 라이브러리 [ 실행 라이브러리 ]
-      annotationProcessor 'org.projectlombok:lombok'                                       //롬복 라이브러리 [ 작성 라이브러리 ]
+      implementation 'org.springframework.boot:spring-boot-starter-web'                         //스프링부트
+      compileOnly 'org.projectlombok:lombok'                                                                         //롬복 라이브러리 [ 실행 라이브러리 ]
+      annotationProcessor 'org.projectlombok:lombok'                                                             //롬복 라이브러리 [ 작성 라이브러리 ]
       runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
       testImplementation 'org.springframework.boot:spring-boot-starter-test'
-      implementation group: 'org.json', name: 'json', version: '20220320'
-      runtimeOnly 'mysql:mysql-connector-java'    // mysql 라이브러리
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'  //오아스 [ 소셜로그인 가능 ]
+      implementation group: 'org.json', name: 'json', version: '20220320'                               //json
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'                      //security thymeleaf
+      runtimeOnly 'mysql:mysql-connector-java'                                                                       // mysql 라이브러리
+    implementation 'org.springframework.boot:spring-boot-starter-security'                      //spring security
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'             //오아스 [ 소셜로그인 가능 ]
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'                      //smtp email 라이브러리
+    implementation 'org.jsoup:jsoup:1.15.2'
 }
 
 tasks.named('test') {

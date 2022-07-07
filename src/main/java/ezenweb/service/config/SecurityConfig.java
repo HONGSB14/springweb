@@ -1,4 +1,4 @@
-package ezenweb.config;
+package ezenweb.service.config;
 
 import ezenweb.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration // 해당 클래스 설정
@@ -32,20 +31,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/")// 로그인 성공시 이동할 URL
                 .usernameParameter("mid") // 로그인시 아이디로 입력받을 변수명 [ 기본값 : user -> mid ]
                 .passwordParameter("mpassword")// 로그인시 비밀번호로 입력받을 변수명[ 기본값 : password -> mpassword ]
+                .failureUrl("/member/login/error")
                 // usernameParameter,passwordParameter   => 변수 name 필드명
                 .and()
                 .logout()
                 .logoutRequestMatcher( new AntPathRequestMatcher("/member/logout")) // 로그인 처리할 URL 정의
-                .logoutSuccessUrl("/") // 로그인 성공시
+                .logoutSuccessUrl("/") // 로그아웃 성공시
                 .invalidateHttpSession( true ) // 세션 초기화
                 .and()
                 .csrf()  // csrf : 사이트 간 요청 위조 [ 해킹 공격 방법중 하나 ] = 서버에게 요청할수 있는 페이지 제한
                 .ignoringAntMatchers("/member/logincontroller")
                 .ignoringAntMatchers("/member/signup")
+                .ignoringAntMatchers("/board/save")
                 .and()
                 .exceptionHandling() // 오류페이지 발생시 시큐리티 페이지 전환
-                .accessDeniedPage("/error");
-//        super.configure(http); // 슈퍼클래스의 기본 설정으로 사용
+                .accessDeniedPage("/error")
+                .and()
+                .oauth2Login()  //oauth2 관련 설정
+                .userInfoEndpoint() //유저 정보가 들어오는 위치
+                .userService(memberService);    //해당 서비스로 유저 정보를 받겠다.
+        //        super.configure(http); // 슈퍼클래스의 기본 설정으로 사용
 
     } // configure 메소드 end
 

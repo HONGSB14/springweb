@@ -24,7 +24,8 @@ public class MemberEntity extends BaseTime {
     private String mid;
     private String mpassword;
     private String mname;
-
+    private String memail;
+    private String oauth;
     // DB에 저장될 enum 타입 설정
     // @Enumerated( EnumType.ORDINAL ) // 열거형 인덱스 번호
     @Enumerated( EnumType.STRING ) // 열거형 이름

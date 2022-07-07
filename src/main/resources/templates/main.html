@@ -4,11 +4,31 @@
 
 <div th:replace="header.html :: header"></div>
 
-<p> @ResponseBody </p>
-<p> @RestController </p>
-<p th:text="${data}"></p>
-<p th:text="${data.name}"></p>
-<p th:text="${data.amount}"></p>
+<div class="main_img">
+        <div class="main_img_title">
+            <div class="img_title">
+                    전국 최대 부동산 직거래
+                <SPAN>E</SPAN>
+                <SPAN>Z</SPAN>
+                <SPAN>E</SPAN>
+                <SPAN>N</SPAN>
+                <SPAN>부</SPAN>
+                <SPAN>동</SPAN>
+                <SPAN>산</SPAN>
+                <div class="img_title">
+                    전국 최대 부동산 직거래
+                </div>
+            </div>
+
+            <div class="container">
+                <h5>최근 등록된 매물</h5>
+                <h5>최근 거래된 매물</h5>
+                <h5>가장 인기있는 매물</h5>
+                <h5>부동산 최신 뉴스</h5>
+                <div class="row" id="newsbox"></div>
+            </div>
+        </div>
+</div>
 
 <p> 인증 세션 확인 </p>
 <!-- 타임리프에서 인증 세션 호출를 위한 라이브러리  필요 -->

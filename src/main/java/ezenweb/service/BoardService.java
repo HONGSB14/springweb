@@ -8,23 +8,31 @@ import ezenweb.domain.board.CategoryRepository;
 import ezenweb.domain.member.MemberEntity;
 import ezenweb.domain.member.MemberRepository;
 import ezenweb.dto.BoardDto;
-import ezenweb.dto.LoginDto;
-import ezenweb.dto.MemberDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.Entity;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+
 
 @Service
 public class BoardService {
@@ -43,11 +51,33 @@ public class BoardService {
     public boolean save(BoardDto boardDto){
 
         // 1. 세션 호출
-        LoginDto loginDto  = (LoginDto)request.getSession().getAttribute("login");
+        //        LoginDto loginDto  = (LoginDto)request.getSession().getAttribute("login");
 
-        if( loginDto != null  ){ // 로그인 되어 있으면
+        //1.인증된 세션 호출 [시큐리티 내 인증 결과 호출 ]
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        //2. 인증정보 가져오기
+        Object principa=authentication.getPrincipal();  //principa : 인증정보
+        //3.일반 회원 :UserDetails       oauth회운 : DefaultOAuth2User 구분
+            //java문법: 자식객체 instaanceof 부모클래스 명  :상속여부 확인 클래스
+           String mid=null;
+            if(principa instanceof UserDetails){    //인증정보가 일반회원으로 구현
+                mid=((UserDetails)principa).getUsername();
+            }else if(principa instanceof DefaultOAuth2User){ //인증정보 타입이 DefaultOaut2user이면 [ oauth2회원 검증 ]
+                    Map<String,Object> map=((DefaultOAuth2User)principa).getAttributes();
+                    if(map.get("response")!=null){ //네이버 경우
+                        Map<String,Object> map2=(Map<String,Object>) map.get("reponse");
+                        mid=map2.get("email").toString().split("@")[0];
+                    }else{//카카오 경우
+                        Map<String,Object> map2=(Map<String,Object>) map.get("kakao_account");
+                        mid=map2.get("email").toString().split("@")[0];
+                    }
+
+        }else{
+                return false;
+            }
+        if( mid != null  ){ // 로그인 되어 있으면
             // 2. 로그인된 회원의 엔티티 찾기
-            Optional<MemberEntity> optionalMember = memberRepository.findById( loginDto.getMno() );
+            Optional<MemberEntity> optionalMember = memberRepository.findBymid(mid );
             // findById( pk키 ) => 반환타입 : Optional클래스 [ NULL 저장 ]
             if ( optionalMember.isPresent() ){ // null 아니면
                 // Optional클래스내 메소드 : .isPresent()    : null 이 아니면
@@ -231,4 +261,67 @@ public class BoardService {
         return jsonArray;
     }
 
+    //1.날씨 크롤링
+    public JSONObject getweather(){
+            //0. java  : jsoup 라이브러리 그레이들 빌드
+            //1. 정보를 가지고 올 url 작성
+            String url="https://search.daum.net/search?w=tot&q=%EB%82%A0%EC%94%A8";
+            //2. 해당 url 를 jsoup 으로 연결  [jsoup 은 해당 url 과 연결 ]
+            Connection conn = Jsoup.connect(url);
+            try{
+                //3.  해당 URL 객체로 가져오기
+                Document docu= conn.get();
+                //4. 특정 태그 호출
+                String 지역명=docu.getElementsByClass("tit_info").first().text();
+                String 상태=docu.getElementsByClass("txt_weather").first().text();
+
+                Elements elements=docu.getElementsByClass("desc_temp");
+                String 온도  = elements.get(2).getElementsByClass("txt_temp").first().text();
+                String 풍속= elements.get(2).getElementsByClass("dl_weather").get(0).text();
+                String 습도= elements.get(2).getElementsByClass("dl_weather").get(1).text();
+                String 미세먼지= elements.get(2).getElementsByClass("dl_weather").get(2).text();
+                //5. js로 넘기기위해 json으로 변환
+                JSONObject object =  new JSONObject();
+                object.put("지역명", 지역명);
+                object.put("상태", 상태);
+                object.put("온도", 온도);
+                object.put("풍속", 풍속);
+                object.put("습도", 습도);
+                object.put("미세먼지",미세먼지);
+                //6 . json 리턴
+                return object;
+            }catch(Exception e){
+                System.out.println("e" +e);
+            }
+            return null;
+    }
+    //2. 부동산 관련 뉴스 크롤링
+    public JSONArray getnews(){
+        String url="http://realestate.daum.net/news/all";
+        Connection conn = Jsoup.connect(url);
+        try {
+            Document docu=conn.get();
+            Elements elements=docu.getElementsByClass("list_live");
+           Elements tags= elements.first().getElementsByTag("li");
+            JSONArray jsonArray = new JSONArray();
+            for(int i =0; i<6; i++){
+                JSONObject object = new JSONObject();
+                String 내용=tags.get(i).getElementsByClass("cont").text();
+                String 사진=tags.get(i).getElementsByClass("frame_thumb").attr("src");
+                String 링크=tags.get(i).getElementsByClass("link_thumb").attr("href");
+
+                object.put("내용",내용);
+                object.put("사진",사진);
+                object.put("링크",링크);
+                jsonArray.put(object);
+            }
+            return jsonArray;
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    //3. 부동산 시세 크롤링
+    public void getvalue(){
+
+    }
 }
